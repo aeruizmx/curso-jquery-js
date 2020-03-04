@@ -107,19 +107,22 @@ const getUser = new Promise(function (todoBien, todoMal) {
   function videoItemTemplate(movie){
     return(
       `<div class="primaryPlaylistItem">
-          <divclass="primaryPlaylistItem-image">
-            <imgsrc="${movie.medium_cover_image}"alt="">
+          <div class="primaryPlaylistItem-image">
+            <img src="${movie.medium_cover_image}" alt="">
           </div>
-          <h4class="primaryPlaylistItem-title">
+          <h4 class="primaryPlaylistItem-title">
             ${movie.title}
           </h4>
         </div>`);
   }
 
   const actionList = await getData('https://yts.mx/api/v2/list_movies.json?genre=action');
+  const $actionContainer = document.querySelector('#action');
   actionList.data.movies.forEach((movie)=>{
     const HTMLString = videoItemTemplate(movie);
-    console.log(HTMLString);
+    const html = document.implementation.createHTMLDocument();
+    html.body.innerHTML = HTMLString;
+    $actionContainer.append(html.body.children[0]);
   });
   const horrorList = await getData('https://yts.mx/api/v2/list_movies.json?genre=horror');
   const animationList = await getData('https://yts.mx/api/v2/list_movies.json?genre=animation');
@@ -135,7 +138,7 @@ const getUser = new Promise(function (todoBien, todoMal) {
   // const $home = $('.home');
 
   // JS SELECTORES
-  const $actionContainer = document.querySelector('#action');
+  
   const $horrorContainer = document.querySelector('#horror');
   const $animationContainer = document.querySelector('#animation');
   const $featuringContainer = document.querySelector('#featuring');
