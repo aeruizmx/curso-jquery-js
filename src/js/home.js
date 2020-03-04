@@ -103,7 +103,24 @@ const getUser = new Promise(function (todoBien, todoMal) {
     const data = await response.json();
     return data;
   }
+
+  function videoItemTemplate(movie){
+    return(
+      `<div class="primaryPlaylistItem">
+          <divclass="primaryPlaylistItem-image">
+            <imgsrc="${movie.medium_cover_image}"alt="">
+          </div>
+          <h4class="primaryPlaylistItem-title">
+            ${movie.title}
+          </h4>
+        </div>`);
+  }
+
   const actionList = await getData('https://yts.mx/api/v2/list_movies.json?genre=action');
+  actionList.data.movies.forEach((movie)=>{
+    const HTMLString = videoItemTemplate(movie);
+    console.log(HTMLString);
+  });
   const horrorList = await getData('https://yts.mx/api/v2/list_movies.json?genre=horror');
   const animationList = await getData('https://yts.mx/api/v2/list_movies.json?genre=animation');
 
@@ -133,5 +150,7 @@ const getUser = new Promise(function (todoBien, todoMal) {
   const modalTitle = $modal.querySelector('h1')
   const modalImage = $modal.querySelector('img')
   const modalDescription = $modal.querySelector('p')
+
+  
 
 })()
