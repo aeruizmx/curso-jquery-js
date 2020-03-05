@@ -4,10 +4,13 @@
     const data = await response.json();
     return data;
   }
+
   const $form = document.getElementById('form');
+  const $home = document.getElementById('home');
+  
   $form.addEventListener('submit', (event) => {
     event.preventDefault();
-    console.log(event);
+    $home.classList.add('search-active');
   });
 
   function videoItemTemplate(movie) {
@@ -30,7 +33,7 @@
 
   function addEventClick($element) {
     $element.addEventListener('click', () => {
-      alert('click');
+      showModal();
     });
   }
 
@@ -62,7 +65,7 @@
   
   
 
-  const $home = document.getElementById('home');
+  
 
   const $modal = document.getElementById('modal');
   const $overlay = document.getElementById('overlay');
@@ -71,6 +74,17 @@
   const modalTitle = $modal.querySelector('h1')
   const modalImage = $modal.querySelector('img')
   const modalDescription = $modal.querySelector('p')
+
+  function showModal(){
+    $overlay.classList.add('active');
+    $modal.style.animation = 'modalIn .8s forwards';
+  }
+
+  $hideModal.addEventListener('click', hideModal);
+  function hideModal () {
+    $overlay.classList.remove('active');
+    $modal.style.animation = 'modalOut .8s forwards';
+  }
 
 
 
