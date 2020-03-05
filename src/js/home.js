@@ -4,6 +4,11 @@
     const data = await response.json();
     return data;
   }
+  const $form = document.getElementById('form');
+  $form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    console.log(event);
+  });
 
   function videoItemTemplate(movie) {
     return (
@@ -23,6 +28,12 @@
     return html.body.children[0];
   }
 
+  function addEventClick($element) {
+    $element.addEventListener('click', () => {
+      alert('click');
+    });
+  }
+
   function renderMovieList(list, $container) {
     if($container.children[0]){
       $container.children[0].remove();
@@ -31,6 +42,7 @@
       const HTMLString = videoItemTemplate(movie);
       const movieElement = createTemplate(HTMLString);
       $container.append(movieElement);
+      addEventClick(movieElement);
     });
   }
 
@@ -47,8 +59,9 @@
   renderMovieList(animationList.data.movies, $animationList);
   
   const $featuringContainer = document.querySelector('#featuring');
+  
+  
 
-  const $form = document.getElementById('form');
   const $home = document.getElementById('home');
 
   const $modal = document.getElementById('modal');
