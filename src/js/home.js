@@ -46,9 +46,9 @@ function featuringTemplate(peli){
     $featuringContainer.innerHTML = HTMLString;
   });
 
-  function videoItemTemplate(movie) {
+  function videoItemTemplate(movie, category) {
     return (
-      `<div class="primaryPlaylistItem">
+      `<div class="primaryPlaylistItem" data-id="${movie.id}" data-category="${category}">
           <div class="primaryPlaylistItem-image">
             <img src="${movie.medium_cover_image}" alt="">
           </div>
@@ -66,16 +66,16 @@ function featuringTemplate(peli){
 
   function addEventClick($element) {
     $element.addEventListener('click', () => {
-      showModal();
+      showModal($element);
     });
   }
 
-  function renderMovieList(list, $container) {
+  function renderMovieList(list, $container, category) {
     if($container.children[0]){
       $container.children[0].remove();
     }
     list.forEach((movie) => {
-      const HTMLString = videoItemTemplate(movie);
+      const HTMLString = videoItemTemplate(movie, category);
       const movieElement = createTemplate(HTMLString);
       $container.append(movieElement);
       addEventClick(movieElement);
@@ -84,15 +84,15 @@ function featuringTemplate(peli){
 
   const actionList = await getData(`${BASE_API}list_movies.json?genre=action`);
   const $actionContainer = document.querySelector('#action');
-  renderMovieList(actionList.data.movies, $actionContainer);
+  renderMovieList(actionList.data.movies, $actionContainer, 'action');
 
   const horrorList = await getData(`${BASE_API}list_movies.json?genre=horror`);
   const $horrorContainer = document.querySelector('#horror');
-  renderMovieList(horrorList.data.movies, $horrorContainer);
+  renderMovieList(horrorList.data.movies, $horrorContainer, 'horror');
 
   const animationList = await getData(`${BASE_API}list_movies.json?genre=animation`);
   const $animationList = document.querySelector('#animation');
-  renderMovieList(animationList.data.movies, $animationList);
+  renderMovieList(animationList.data.movies, $animationList), 'animation';
   
   
   
@@ -104,9 +104,11 @@ function featuringTemplate(peli){
   const modalImage = $modal.querySelector('img')
   const modalDescription = $modal.querySelector('p')
 
-  function showModal(){
+  function showModal($element){
     $overlay.classList.add('active');
     $modal.style.animation = 'modalIn .8s forwards';
+    const id = $element.dataset.id;
+    const category = $element.dataset.category;
   }
 
   $hideModal.addEventListener('click', hideModal);
