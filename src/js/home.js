@@ -1,4 +1,5 @@
 (async function load() {
+
   async function getData(url) {
     const response = await fetch(url);
     const data = await response.json();
@@ -14,7 +15,9 @@
       $element.setAttribute(attribute, attributes[attribute]);
     }
   }
+
   const BASE_API = 'https://yts.mx/api/v2/';
+
   function featuringTemplate(peli) {
     return (`<div class="featuring">
               <div class="featuring-image">
@@ -26,6 +29,7 @@
               </div>
             </div>`);
   }
+  
   $form.addEventListener('submit', async (event) => {
     event.preventDefault();
     $home.classList.add('search-active');
@@ -78,6 +82,11 @@
       const HTMLString = videoItemTemplate(movie, category);
       const movieElement = createTemplate(HTMLString);
       $container.append(movieElement);
+      const image = movieElement.querySelector('img');
+      image.addEventListener('load', function(event){
+        event.srcElement.classList.add('fadeIn');
+      })
+      
       addEventClick(movieElement);
     });
   }
