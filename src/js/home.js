@@ -99,14 +99,17 @@
   }
 
   const { data: { movies: actionList } } = await getData(`${BASE_API}list_movies.json?genre=action`);
+  window.localStorage.setItem('actionList', JSON.stringify(actionList));
   const $actionContainer = document.querySelector('#action');
   renderMovieList(actionList, $actionContainer, 'action');
 
   const { data: { movies: horrorList } } = await getData(`${BASE_API}list_movies.json?genre=horror`);
+  window.localStorage.setItem('horrorList', JSON.stringify(horrorList));
   const $horrorContainer = document.querySelector('#horror');
   renderMovieList(horrorList, $horrorContainer, 'horror');
 
   const { data: { movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`);
+  window.localStorage.setItem('animationList', JSON.stringify(animationList));
   const $animationList = document.querySelector('#animation');
   renderMovieList(animationList, $animationList), 'animation';
 
