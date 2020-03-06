@@ -29,7 +29,7 @@
               </div>
             </div>`);
   }
-  
+
   $form.addEventListener('submit', async (event) => {
     event.preventDefault();
     $home.classList.add('search-active');
@@ -41,13 +41,20 @@
     });
     $featuringContainer.append($loader);
     const data = new FormData($form);
-    const {
-      data: {
-        movies: pelis
-      }
-    } = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`);
-    const HTMLString = featuringTemplate(pelis[0]);
-    $featuringContainer.innerHTML = HTMLString;
+    try {
+      const {
+        data: {
+          movies: pelis
+        }
+      } = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`);
+      const HTMLString = featuringTemplate(pelis[0]);
+      $featuringContainer.innerHTML = HTMLString;
+    } catch (error) {
+      alert(error);
+      $loader.remove();
+      $home.classList.remove('search-active');
+    }
+
   });
 
   function videoItemTemplate(movie, category) {
@@ -83,10 +90,10 @@
       const movieElement = createTemplate(HTMLString);
       $container.append(movieElement);
       const image = movieElement.querySelector('img');
-      image.addEventListener('load', function(event){
+      image.addEventListener('load', function (event) {
         event.srcElement.classList.add('fadeIn');
       })
-      
+
       addEventClick(movieElement);
     });
   }
@@ -113,8 +120,8 @@
   const $modalImage = $modal.querySelector('img')
   const $modalDescription = $modal.querySelector('p')
 
-  function findById(list, id){
-    return list.find( movie => movie.id === parseInt(id, 10))
+  function findById(list, id) {
+    return list.find(movie => movie.id === parseInt(id, 10))
   }
 
   function findMovie(id, category) {
@@ -135,7 +142,7 @@
     const id = $element.dataset.id;
     const category = $element.dataset.category;
     const data = findMovie(id, category);
-    $modalTitle.textContent = data.title; 
+    $modalTitle.textContent = data.title;
     $modalImage.setAttribute('src', data.medium_cover_image);
     $modalDescription.textContent = data.description_full;
   }
@@ -145,7 +152,5 @@
     $overlay.classList.remove('active');
     $modal.style.animation = 'modalOut .8s forwards';
   }
-
-
 
 })()
